@@ -1,0 +1,14 @@
+FROM debian:12
+
+RUN apt-get update && apt-get install nginx -y
+
+RUN apt-get install openssl -y && mkdir -p /etc/nginx/ssl
+
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/esafouan.crt \
+    -keyout /etc/nginx/ssl/esafouan.key \
+    -subj "/C=mr/ST=IDF/L=benguerir/O=1337/OU=1337/CN=esafouan.42.fr/UID=esafouan"
+
+COPY config/default /etc/nginx/sites-enabled/default
+
+
+CMD [ "nginx" , "-g" , "daemon off;" ] 
